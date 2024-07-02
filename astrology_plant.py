@@ -84,22 +84,23 @@ def validate_str_input(prompt, options):
 
 def validate_date_input():
     while True:
-        bday_input = str(input("Please enter your bday as MM/DD (e.g., 07/14): "))
+        bday_input = str(input("Please enter bday MM/DD (e.g. 07/14): "))
         try:
             month = int(bday_input[:2])
             day = int(bday_input[3:])
             if month == 2 and 1 <= day <= 28:
-                return [month,day]
+                return [month, day]
             elif month in {4, 6, 9, 11} and 1 <= day <= 30:
-                return [month,day]
+                return [month, day]
             elif month in {1, 3, 5, 7, 8, 10, 12} and 1 <= day <= 31:
-                return [month,day]
+                return [month, day]
             else:
                 print(f"\nInvalid input. Please enter your bday as MM/DD"
                       " and ensure you enter accurate dates.\n")
-        
+
         except ValueError:
-            print("Invalid input. Please ensure you enter numeric values for month and day.")
+            print("Invalid input. Please ensure you enter "
+                  "numeric values for month and day.")
 
 
 def retrieve_bday_month(bday_input):
