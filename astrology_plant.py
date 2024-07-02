@@ -148,7 +148,7 @@ def get_chatgpt_response(prompt):
             {"role": "user", "content": prompt}
             ]
     )
-    
+
     message = response.choices[0].message.content
     return message
 
@@ -157,56 +157,54 @@ def main():
     bday = validate_date_input()
     bday_month = retrieve_bday_month(bday)
     sun_sign = get_astrological_sign(bday[0], bday[1])
-    
+
     sunlight_options = [
                 'full sun',
                 'part shade',
                 'full shade',
                 'part sun/part shade'
                 ]
-    
+
     watering_options = [
-        'frequent', 
-        'minimum', 
+        'frequent',
+        'minimum',
         'average'
         ]
-    
+
     maintenance_options = [
-        'low', 
-        'moderate', 
+        'low',
+        'moderate',
         'high'
         ]
 
     print("\nPlease enter your plant preferences:\n")
-    
+
     # Take sunlight preferences
     sunlight_pref = validate_str_input(
-        (
-            "Preferred sunlight (e.g., 'full sun', 'part shade', "
-            "'full shade','part sun/part shade'): "
-            ),
-    sunlight_options)
-    
+        ("Preferred sunlight (e.g., 'full sun', 'part shade', "
+         "'full shade','part sun/part shade'): "
+        ),
+        sunlight_options)
+
     # Take watering freq. preferences
     watering_pref = validate_str_input(
         "Preferred watering (e.g., 'frequent', 'minimum', 'average'): ",
         watering_options)
-    
+
     # Take maintenance level pref.
     maintenance_pref = validate_str_input(
-    "Preferred maintenance level (e.g., 'low', 'moderate', 'high'): ",
-    maintenance_options)    
-    
+        "Preferred maintenance level (e.g., 'low', 'moderate', 'high'): ",
+        maintenance_options)
     
     print(f"\nYour birthday is {bday_month} {bday[1]}. Your sun sign is {sun_sign.capitalize()}.\n")
     
     prompt = (f"My birthday is {bday_month} {bday[1]} and my star sign is {sun_sign.capitalize()}."
               f"Name a plant that meets my preferences and astrology sign. Just give me the plant name."
               f"Say nothing other than the plant name. Do not use punctuation.")
-    
+
     print(get_chatgpt_response(prompt))
 
-    
+
 main()
 
 
