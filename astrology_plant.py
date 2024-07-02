@@ -14,7 +14,7 @@ import openai
 from openai import OpenAI
 
 
-USER_KEY = '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'
+USER_KEY = 'sk-proj-l9zydIhqqCjdi8wrz9MYT3BlbkFJO1rbX8CEx48OmxTOVuBB'
 PROJ_API_KEY = 'sk-proj-B5fkI6Yc6kAIbrn9qvPxT3BlbkFJfPSV3pbaA2wpbbxLNna2'
 
 
@@ -139,6 +139,18 @@ def get_astrological_sign(month, day):
         return "virgo"
 
 
+def get_chatgpt_response(prompt):
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo-16k",
+        messages=[
+            {"role": "system", "content": "You are a houseplant and astrology expert."},
+            {"role":"user","content": prompt}
+            ]
+    )
+    
+    message = response.choices[0].message.content
+    return message
+
 def main():
     bday = validate_date_input()
     bday_month = retrieve_bday_month(bday)
@@ -187,22 +199,31 @@ def main():
     print(f"\nYour birthday is {bday_month} {bday[1]}. Your sun sign is {sun_sign.capitalize()}.\n")
     
     # Specify the model to use and the messages to send
-    completion = client.chat.completions.create(
-        model="gpt-3.5-turbo-16k",
-        messages=[
-            
-            {"role": "system", "content": ("You are a houseplant expert and can explain plant care instructions"
-                                           " clearly in a few words. You are also an astrology expert. "
-                                           " You know all the astrological signs very well.")
-             },
-            {"role": "user", "content": (f"My birthday is {bday_month} {bday[1]} and my star sign is {sun_sign.capitalize()}. "
-                                         f" I prefer a plant that needs {sunlight_pref}, {watering_pref} watering, and "
-                                         f" requires {maintenance_pref} maintenance. "
-                                         f"What is the best housplant for me based on my sign and preferences and why?")
-                                         }
-        ]
-    )
-    print(completion.choices[0].message.content) 
+    prompt = (f"My birthday is {bday_month} {bday[1]} and my star sign is {sun_sign.capitalize()}."
+              f"Name a plant that meets my preferences and astrology sign. Just give me the plant name."
+              f"Say nothing other than the plant name. Do not use punctuation.")
+    
+    print(get_chatgpt_response(prompt))
 
     
 main()
+
+
+'''
+completion = client.chat.completions.create(
+    model="gpt-3.5-turbo-16k",
+    messages=[
+        
+        {"role": "system", "content": ("You are a houseplant expert and can explain plant care instructions"
+                                       " clearly in a few words. You are also an astrology expert. "
+                                       " You know all the astrological signs very well.")
+         },
+        {"role": "user", "content": (f"My birthday is {bday_month} {bday[1]} and my star sign is {sun_sign.capitalize()}. "
+                                     f" I prefer a plant that needs {sunlight_pref}, {watering_pref} watering, and "
+                                     f" requires {maintenance_pref} maintenance. "
+                                     f"What is the best housplant for me based on my sign and preferences and why?")
+                                     }
+    ]
+)
+print(completion.choices[0].message.content) 
+'''
