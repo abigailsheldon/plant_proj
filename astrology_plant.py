@@ -25,54 +25,53 @@ client = OpenAI(
 
 
 astro_decriptions = {
-    "aries":("An Aries was born within March 21-April 20. "
-             "Aries are natural born leaders. They are tenacious and "
-             "like taking risks. They enjoy new experiences and are very "
-             "passionate. They are energetic, creative, caring, and generous."
-             "Aries are fiery, passionatd, determined, and courageous."),
-    
-    "taurus":("A Taurus was born within April 21-May 21. "
-              "Taurus is loyal, generous, kind, and patient."),
-    
-    "gemini":("A Gemini was born within May 22-June 21. "
-              "Gemini are independent, curious, charming, and gentle."),
-   
-    "cancer":("A Cancer was born within June 22-July 23. "
-              "Cancer are compassionate, sentimental, protective, and emotional."),
-    
-    "leo":("A Leo was born within July 24-Aug 23. "
-           "Leo are charismatic, dramatic, confident, and fun."),
-    
-    "libra":("A Libra was born within Sept 24-Oct 23. "
-             "Libra are romantic, artistic, friendly, and persuasive."),
-    
-    "scorpio":("A Scorpio was born within Oct 24-Nov 22. "
-               "Scorpio are mysterious, powerful, brave, and resourceful."),
-    
-    "aquarius":("An Aquarius was born within Jan 21-Feb 19. "
-                "Aquarius are humanitarian, eccentric, individualistic, "
-                "and cool."),
-    
-    "pisces":("A Pisces was born within Feb 20-March 20. "
-              "Pisces are creative, easy-going, faithful, and sensitive."),
-    
-    "capricorn":("A Capricorn was born within Dec 22-Jan 20. "
-                 "Capricorn are traditional, disciplined, ambitious, "
-                 "and independent."),
-    
-    "sagittarius":("A Sagittarius was born within Nov 23-Dec 21. "
-                   "Sagittarius are philosophical, optimistic, "
-                   "adventurous, and free-spirited."),
-   
-    "virgo":("A Virgo was born within Aug 24-Sept 23. "
-             "Virgo are humble, practical, organized, and "
-             "patient. They are reliable and clever.")
+    "aries": ("An Aries was born within March 21-April 20. "
+              "Aries are natural born leaders. They are tenacious and "
+              "like taking risks. They enjoy new experiences and are very "
+              "passionate. They are energetic, creative, caring, and generous."
+              "Aries are fiery, passionatd, determined, and courageous."),
 
+    "taurus": ("A Taurus was born within April 21-May 21. "
+               "Taurus is loyal, generous, kind, and patient."),
+
+    "gemini": ("A Gemini was born within May 22-June 21. "
+               "Gemini are independent, curious, charming, and gentle."),
+
+    "cancer": ("A Cancer was born within June 22-July 23. "
+               "Cancer are compassionate, sentimental, protective, and "
+               "emotional."),
+
+    "leo": ("A Leo was born within July 24-Aug 23. "
+            "Leo are charismatic, dramatic, confident, and fun."),
+
+    "libra": ("A Libra was born within Sept 24-Oct 23. "
+              "Libra are romantic, artistic, friendly, and persuasive."),
+
+    "scorpio": ("A Scorpio was born within Oct 24-Nov 22. "
+                "Scorpio are mysterious, powerful, brave, and resourceful."),
+
+    "aquarius": ("An Aquarius was born within Jan 21-Feb 19. "
+                 "Aquarius are humanitarian, eccentric, individualistic, "
+                 "and cool."),
+
+    "pisces": ("A Pisces was born within Feb 20-March 20. "
+               "Pisces are creative, easy-going, faithful, and sensitive."),
+
+    "capricorn": ("A Capricorn was born within Dec 22-Jan 20. "
+                  "Capricorn are traditional, disciplined, ambitious, "
+                  "and independent."),
+
+    "sagittarius": ("A Sagittarius was born within Nov 23-Dec 21. "
+                    "Sagittarius are philosophical, optimistic, "
+                    "adventurous, and free-spirited."),
+
+    "virgo": ("A Virgo was born within Aug 24-Sept 23. "
+              "Virgo are humble, practical, organized, and "
+              "patient. They are reliable and clever.")
             }
 
 
-
-def validate_str_input(prompt,options):
+def validate_str_input(prompt, options):
     while True:
         user_input = input(prompt).lower()
         if user_input in options:
@@ -104,8 +103,8 @@ def validate_date_input():
 
 
 def retrieve_bday_month(bday_input):
-    months = ["January","February","March","April","May","June","July",
-              "August","September","October","November","December"]
+    months = ["January", "February", "March", "April", "May", "June", "July",
+              "August", "September", "October", "November", "December"]
     for i in range(13):
         if (bday_input[0]-1) == i:
             return months[i]
@@ -143,13 +142,15 @@ def get_chatgpt_response(prompt):
     response = client.chat.completions.create(
         model="gpt-3.5-turbo-16k",
         messages=[
-            {"role": "system", "content": "You are a houseplant and astrology expert."},
-            {"role":"user","content": prompt}
+            {"role": "system", "content": ("You are a houseplant and "
+                                           "astrology expert.")},
+            {"role": "user", "content": prompt}
             ]
     )
     
     message = response.choices[0].message.content
     return message
+
 
 def main():
     bday = validate_date_input()
@@ -198,7 +199,6 @@ def main():
     
     print(f"\nYour birthday is {bday_month} {bday[1]}. Your sun sign is {sun_sign.capitalize()}.\n")
     
-    # Specify the model to use and the messages to send
     prompt = (f"My birthday is {bday_month} {bday[1]} and my star sign is {sun_sign.capitalize()}."
               f"Name a plant that meets my preferences and astrology sign. Just give me the plant name."
               f"Say nothing other than the plant name. Do not use punctuation.")
